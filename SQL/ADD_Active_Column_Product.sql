@@ -1,0 +1,2 @@
+ALTER TABLE Production.Product
+ADD "Active" BIT NOT NULL DEFAULT 1;

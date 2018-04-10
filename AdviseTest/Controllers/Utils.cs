@@ -60,7 +60,7 @@ namespace AdviseTest.Controllers
 
         #region Product
 
-        public List<Product_min> PageProductResult(int page = 1, int rowsPage = 20)
+        public List<Product> PageProductResult(int page = 1, int rowsPage = 20)
         {
 
             int position = (rowsPage * (page - 1)) + 1;
@@ -69,14 +69,25 @@ namespace AdviseTest.Controllers
                                             .OrderBy(x => x.Name)
                                             .Skip(position)
                                             .Take((position -1) + rowsPage)
-                                            select new Product_min
+                                            select new Product
                                             {
                                                 ProductID = p.ProductID,
                                                 Name = p.Name,
-                                                CatalogDescription = p.CatalogDescription,
-                                                Instructions = p.Instructions,
-                                                ModifiedDate = p.ModifiedDate
+                                                ProductNumber = p.ProductNumber,
+                                                Color = p.Color,
+                                                StandardCost = p.StandardCost,
+                                                ListPrice = p.ListPrice,
+                                                DaysToManufacture = p.DaysToManufacture,
+                                                ProductLine = p.ProductLine,
+                                                SellStartDate = p.SellStartDate,
+                                                SellEndDate = p.SellEndDate,
+                                                DiscontinuedDate = p.DiscontinuedDate,
+                                                ModifiedDate = DateTime.Now,
+                                                Active = p.Active
+
                                             }).ToList();
+
+            return productList;
 
         }
 

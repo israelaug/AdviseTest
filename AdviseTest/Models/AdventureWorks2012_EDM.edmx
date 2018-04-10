@@ -1,0 +1,470 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AdventureWorks2012Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductNumber" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="MakeFlag" Type="bit" Nullable="false" />
+          <Property Name="FinishedGoodsFlag" Type="bit" Nullable="false" />
+          <Property Name="Color" Type="nvarchar" MaxLength="15" />
+          <Property Name="SafetyStockLevel" Type="smallint" Nullable="false" />
+          <Property Name="ReorderPoint" Type="smallint" Nullable="false" />
+          <Property Name="StandardCost" Type="money" Nullable="false" />
+          <Property Name="ListPrice" Type="money" Nullable="false" />
+          <Property Name="Size" Type="nvarchar" MaxLength="5" />
+          <Property Name="SizeUnitMeasureCode" Type="nchar" MaxLength="3" />
+          <Property Name="WeightUnitMeasureCode" Type="nchar" MaxLength="3" />
+          <Property Name="Weight" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="DaysToManufacture" Type="int" Nullable="false" />
+          <Property Name="ProductLine" Type="nchar" MaxLength="2" />
+          <Property Name="Class" Type="nchar" MaxLength="2" />
+          <Property Name="Style" Type="nchar" MaxLength="2" />
+          <Property Name="ProductSubcategoryID" Type="int" />
+          <Property Name="ProductModelID" Type="int" />
+          <Property Name="SellStartDate" Type="datetime" Nullable="false" />
+          <Property Name="SellEndDate" Type="datetime" />
+          <Property Name="DiscontinuedDate" Type="datetime" />
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductCategory">
+          <Key>
+            <PropertyRef Name="ProductCategoryID" />
+          </Key>
+          <Property Name="ProductCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductModel">
+          <Key>
+            <PropertyRef Name="ProductModelID" />
+          </Key>
+          <Property Name="ProductModelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CatalogDescription" Type="xml" />
+          <Property Name="Instructions" Type="xml" />
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductSubcategory">
+          <Key>
+            <PropertyRef Name="ProductSubcategoryID" />
+          </Key>
+          <Property Name="ProductSubcategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductCategoryID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UnitMeasure">
+          <Key>
+            <PropertyRef Name="UnitMeasureCode" />
+          </Key>
+          <Property Name="UnitMeasureCode" Type="nchar" MaxLength="3" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Product_ProductModel_ProductModelID">
+          <End Role="ProductModel" Type="Self.ProductModel" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductModel">
+              <PropertyRef Name="ProductModelID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProductModelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_ProductSubcategory_ProductSubcategoryID">
+          <End Role="ProductSubcategory" Type="Self.ProductSubcategory" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductSubcategory">
+              <PropertyRef Name="ProductSubcategoryID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProductSubcategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_UnitMeasure_SizeUnitMeasureCode">
+          <End Role="UnitMeasure" Type="Self.UnitMeasure" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitMeasure">
+              <PropertyRef Name="UnitMeasureCode" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SizeUnitMeasureCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_UnitMeasure_WeightUnitMeasureCode">
+          <End Role="UnitMeasure" Type="Self.UnitMeasure" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitMeasure">
+              <PropertyRef Name="UnitMeasureCode" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="WeightUnitMeasureCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSubcategory_ProductCategory_ProductCategoryID">
+          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="1" />
+          <End Role="ProductSubcategory" Type="Self.ProductSubcategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryID" />
+            </Principal>
+            <Dependent Role="ProductSubcategory">
+              <PropertyRef Name="ProductCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="uspGetProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="Production">
+          <Parameter Name="pSellStartDate" Type="date" Mode="In" />
+          <Parameter Name="pPage" Type="int" Mode="In" />
+          <Parameter Name="pRowsPage" Type="int" Mode="In" />
+          <Parameter Name="pOrderByName" Type="bit" Mode="In" />
+          <Parameter Name="pOrderLastFirst" Type="bit" Mode="In" />
+        </Function>
+        <EntityContainer Name="AdventureWorks2012ModelStoreContainer">
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="Production" store:Type="Tables" />
+          <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="Production" store:Type="Tables" />
+          <EntitySet Name="ProductModel" EntityType="Self.ProductModel" Schema="Production" store:Type="Tables" />
+          <EntitySet Name="ProductSubcategory" EntityType="Self.ProductSubcategory" Schema="Production" store:Type="Tables" />
+          <EntitySet Name="UnitMeasure" EntityType="Self.UnitMeasure" Schema="Production" store:Type="Tables" />
+          <AssociationSet Name="FK_Product_ProductModel_ProductModelID" Association="Self.FK_Product_ProductModel_ProductModelID">
+            <End Role="ProductModel" EntitySet="ProductModel" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_ProductSubcategory_ProductSubcategoryID" Association="Self.FK_Product_ProductSubcategory_ProductSubcategoryID">
+            <End Role="ProductSubcategory" EntitySet="ProductSubcategory" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_UnitMeasure_SizeUnitMeasureCode" Association="Self.FK_Product_UnitMeasure_SizeUnitMeasureCode">
+            <End Role="UnitMeasure" EntitySet="UnitMeasure" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_UnitMeasure_WeightUnitMeasureCode" Association="Self.FK_Product_UnitMeasure_WeightUnitMeasureCode">
+            <End Role="UnitMeasure" EntitySet="UnitMeasure" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSubcategory_ProductCategory_ProductCategoryID" Association="Self.FK_ProductSubcategory_ProductCategory_ProductCategoryID">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="ProductSubcategory" EntitySet="ProductSubcategory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AdventureWorks2012Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductNumber" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MakeFlag" Type="Boolean" Nullable="false" />
+          <Property Name="FinishedGoodsFlag" Type="Boolean" Nullable="false" />
+          <Property Name="Color" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="SafetyStockLevel" Type="Int16" Nullable="false" />
+          <Property Name="ReorderPoint" Type="Int16" Nullable="false" />
+          <Property Name="StandardCost" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="ListPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Size" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="SizeUnitMeasureCode" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="WeightUnitMeasureCode" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="Weight" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="DaysToManufacture" Type="Int32" Nullable="false" />
+          <Property Name="ProductLine" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="Class" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="Style" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="ProductSubcategoryID" Type="Int32" />
+          <Property Name="ProductModelID" Type="Int32" />
+          <Property Name="SellStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SellEndDate" Type="DateTime" Precision="3" />
+          <Property Name="DiscontinuedDate" Type="DateTime" Precision="3" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ProductModel" Relationship="Self.FK_Product_ProductModel_ProductModelID" FromRole="Product" ToRole="ProductModel" />
+          <NavigationProperty Name="ProductSubcategory" Relationship="AdventureWorks2012Model.FK_Product_ProductSubcategory_ProductSubcategoryID" FromRole="Product" ToRole="ProductSubcategory" />
+          <NavigationProperty Name="UnitMeasure" Relationship="AdventureWorks2012Model.FK_Product_UnitMeasure_SizeUnitMeasureCode" FromRole="Product" ToRole="UnitMeasure" />
+          <NavigationProperty Name="UnitMeasure1" Relationship="AdventureWorks2012Model.FK_Product_UnitMeasure_WeightUnitMeasureCode" FromRole="Product" ToRole="UnitMeasure" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductModel">
+          <Key>
+            <PropertyRef Name="ProductModelID" />
+          </Key>
+          <Property Name="ProductModelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CatalogDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Instructions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Product_ProductModel_ProductModelID" FromRole="ProductModel" ToRole="Product" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Product_ProductModel_ProductModelID">
+          <End Role="ProductModel" Type="Self.ProductModel" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductModel">
+              <PropertyRef Name="ProductModelID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProductModelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AdventureWorks2012Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="ProductModel" EntityType="Self.ProductModel" />
+          <AssociationSet Name="FK_Product_ProductModel_ProductModelID" Association="Self.FK_Product_ProductModel_ProductModelID">
+            <End Role="ProductModel" EntitySet="ProductModel" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <FunctionImport Name="uspGetProducts" ReturnType="Collection(AdventureWorks2012Model.uspGetProducts_Result)">
+            <Parameter Name="pSellStartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="pPage" Mode="In" Type="Int32" />
+            <Parameter Name="pRowsPage" Mode="In" Type="Int32" />
+            <Parameter Name="pOrderByName" Mode="In" Type="Boolean" />
+            <Parameter Name="pOrderLastFirst" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <EntitySet Name="ProductCategory" EntityType="AdventureWorks2012Model.ProductCategory" />
+          <EntitySet Name="ProductSubcategory" EntityType="AdventureWorks2012Model.ProductSubcategory" />
+          <EntitySet Name="UnitMeasure" EntityType="AdventureWorks2012Model.UnitMeasure" />
+          <AssociationSet Name="FK_Product_ProductSubcategory_ProductSubcategoryID" Association="AdventureWorks2012Model.FK_Product_ProductSubcategory_ProductSubcategoryID">
+            <End Role="ProductSubcategory" EntitySet="ProductSubcategory" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_UnitMeasure_SizeUnitMeasureCode" Association="AdventureWorks2012Model.FK_Product_UnitMeasure_SizeUnitMeasureCode">
+            <End Role="UnitMeasure" EntitySet="UnitMeasure" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_UnitMeasure_WeightUnitMeasureCode" Association="AdventureWorks2012Model.FK_Product_UnitMeasure_WeightUnitMeasureCode">
+            <End Role="UnitMeasure" EntitySet="UnitMeasure" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSubcategory_ProductCategory_ProductCategoryID" Association="AdventureWorks2012Model.FK_ProductSubcategory_ProductCategory_ProductCategoryID">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="ProductSubcategory" EntitySet="ProductSubcategory" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="uspGetProducts_Result">
+          <Property Type="String" Name="productName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="productNumber" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="productModel" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="SellStartDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <EntityType Name="ProductCategory">
+          <Key>
+            <PropertyRef Name="ProductCategoryID" />
+          </Key>
+          <Property Name="ProductCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="ProductSubcategory" Relationship="AdventureWorks2012Model.FK_ProductSubcategory_ProductCategory_ProductCategoryID" FromRole="ProductCategory" ToRole="ProductSubcategory" />
+        </EntityType>
+        <EntityType Name="ProductSubcategory">
+          <Key>
+            <PropertyRef Name="ProductSubcategoryID" />
+          </Key>
+          <Property Name="ProductSubcategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductCategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Product" Relationship="AdventureWorks2012Model.FK_Product_ProductSubcategory_ProductSubcategoryID" FromRole="ProductSubcategory" ToRole="Product" />
+          <NavigationProperty Name="ProductCategory" Relationship="AdventureWorks2012Model.FK_ProductSubcategory_ProductCategory_ProductCategoryID" FromRole="ProductSubcategory" ToRole="ProductCategory" />
+        </EntityType>
+        <EntityType Name="UnitMeasure">
+          <Key>
+            <PropertyRef Name="UnitMeasureCode" />
+          </Key>
+          <Property Name="UnitMeasureCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Product" Relationship="AdventureWorks2012Model.FK_Product_UnitMeasure_SizeUnitMeasureCode" FromRole="UnitMeasure" ToRole="Product" />
+          <NavigationProperty Name="Product1" Relationship="AdventureWorks2012Model.FK_Product_UnitMeasure_WeightUnitMeasureCode" FromRole="UnitMeasure" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Product_ProductSubcategory_ProductSubcategoryID">
+          <End Type="AdventureWorks2012Model.ProductSubcategory" Role="ProductSubcategory" Multiplicity="0..1" />
+          <End Type="AdventureWorks2012Model.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductSubcategory">
+              <PropertyRef Name="ProductSubcategoryID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProductSubcategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_UnitMeasure_SizeUnitMeasureCode">
+          <End Type="AdventureWorks2012Model.UnitMeasure" Role="UnitMeasure" Multiplicity="0..1" />
+          <End Type="AdventureWorks2012Model.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitMeasure">
+              <PropertyRef Name="UnitMeasureCode" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SizeUnitMeasureCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_UnitMeasure_WeightUnitMeasureCode">
+          <End Type="AdventureWorks2012Model.UnitMeasure" Role="UnitMeasure" Multiplicity="0..1" />
+          <End Type="AdventureWorks2012Model.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UnitMeasure">
+              <PropertyRef Name="UnitMeasureCode" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="WeightUnitMeasureCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSubcategory_ProductCategory_ProductCategoryID">
+          <End Type="AdventureWorks2012Model.ProductCategory" Role="ProductCategory" Multiplicity="1" />
+          <End Type="AdventureWorks2012Model.ProductSubcategory" Role="ProductSubcategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryID" />
+            </Principal>
+            <Dependent Role="ProductSubcategory">
+              <PropertyRef Name="ProductCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AdventureWorks2012ModelStoreContainer" CdmEntityContainer="AdventureWorks2012Entities">
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="AdventureWorks2012Model.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductNumber" ColumnName="ProductNumber" />
+                <ScalarProperty Name="MakeFlag" ColumnName="MakeFlag" />
+                <ScalarProperty Name="FinishedGoodsFlag" ColumnName="FinishedGoodsFlag" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="SafetyStockLevel" ColumnName="SafetyStockLevel" />
+                <ScalarProperty Name="ReorderPoint" ColumnName="ReorderPoint" />
+                <ScalarProperty Name="StandardCost" ColumnName="StandardCost" />
+                <ScalarProperty Name="ListPrice" ColumnName="ListPrice" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="SizeUnitMeasureCode" ColumnName="SizeUnitMeasureCode" />
+                <ScalarProperty Name="WeightUnitMeasureCode" ColumnName="WeightUnitMeasureCode" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="DaysToManufacture" ColumnName="DaysToManufacture" />
+                <ScalarProperty Name="ProductLine" ColumnName="ProductLine" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="Style" ColumnName="Style" />
+                <ScalarProperty Name="ProductSubcategoryID" ColumnName="ProductSubcategoryID" />
+                <ScalarProperty Name="ProductModelID" ColumnName="ProductModelID" />
+                <ScalarProperty Name="SellStartDate" ColumnName="SellStartDate" />
+                <ScalarProperty Name="SellEndDate" ColumnName="SellEndDate" />
+                <ScalarProperty Name="DiscontinuedDate" ColumnName="DiscontinuedDate" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductModel">
+            <EntityTypeMapping TypeName="AdventureWorks2012Model.ProductModel">
+              <MappingFragment StoreEntitySet="ProductModel">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ProductModelID" ColumnName="ProductModelID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CatalogDescription" ColumnName="CatalogDescription" />
+                <ScalarProperty Name="Instructions" ColumnName="Instructions" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="uspGetProducts" FunctionName="AdventureWorks2012Model.Store.uspGetProducts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AdventureWorks2012Model.uspGetProducts_Result">
+                <ScalarProperty Name="productName" ColumnName="productName" />
+                <ScalarProperty Name="productNumber" ColumnName="productNumber" />
+                <ScalarProperty Name="productModel" ColumnName="productModel" />
+                <ScalarProperty Name="SellStartDate" ColumnName="SellStartDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="ProductCategory">
+            <EntityTypeMapping TypeName="AdventureWorks2012Model.ProductCategory">
+              <MappingFragment StoreEntitySet="ProductCategory">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductSubcategory">
+            <EntityTypeMapping TypeName="AdventureWorks2012Model.ProductSubcategory">
+              <MappingFragment StoreEntitySet="ProductSubcategory">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
+                <ScalarProperty Name="ProductSubcategoryID" ColumnName="ProductSubcategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitMeasure">
+            <EntityTypeMapping TypeName="AdventureWorks2012Model.UnitMeasure">
+              <MappingFragment StoreEntitySet="UnitMeasure">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UnitMeasureCode" ColumnName="UnitMeasureCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
